@@ -1,4 +1,6 @@
 const express = require('express');
+const model = require('../models/run');
+
 const runs = [
   {
     id: 1,
@@ -12,18 +14,17 @@ const runs = [
 ];
 
 function getAllRuns(req, res, next) {
-  const data = runs;
+  const data = model.getAllRuns();
   res.status(200).json({ data });
 }
 
 function getOneRun(req, res, next) {
-  const idToCheck = parseInt(req.params.id, 10);
-  let data;
-  runs.forEach((run) => {
-    if (run.id === idToCheck) {
-      data = run;
-    }
-  });
+  const data = model.getOneRun(req.params.id);
+
+  if (data.errors) {
+    return next({ status: 404, message: `Could not find run at id: ${req.params.id}`, errors: data.errors });
+  }
+
   res.status(200).json({ data });
 }
 
@@ -32,22 +33,13 @@ function deleteRun(req, res, next) {
 }
 
 function createRun(req, res, next) {
-  const { name, date, category, runTime, system, video_url } = req.body;
+  const data = model.createRun(req.body);
   // Check if req body is valid
   // Create it and add it to array
-  const run = {
-    id: runs[runs.length-1].id + 1,
-    name,
-    date,
-    category,
-    runTime,
-    system,
-    video_url
-  };
-  runs.push(run);
+
   // Send an error
 
-  res.status(201).json({ run });
+  res.status(201).json({ data });
 }
 
 module.exports = { getAllRuns, getOneRun, createRun, deleteRun };
