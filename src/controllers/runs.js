@@ -1,18 +1,6 @@
 const express = require('express');
 const model = require('../models/run');
 
-const runs = [
-  {
-    id: 1,
-    name: 'Super Mario World',
-    date: '2017-12-09',
-    category: '96_exit',
-    runTime: '15:47',
-    system: 'SNES',
-    video_url:'youtube.com/myvideo'
-  }
-];
-
 function getAllRuns(req, res, next) {
   const data = model.getAllRuns();
   res.status(200).json({ data });
@@ -29,7 +17,13 @@ function getOneRun(req, res, next) {
 }
 
 function deleteRun(req, res, next) {
+  const data = model.deleteRun(req.params.id);
 
+  if (data.errors) {
+    return next({ status: 400, message: `Could not remove costume at id: ${req.params.id}`, errors: data.errors });
+  }
+
+  res.status(200).json({ data });
 }
 
 function createRun(req, res, next) {
@@ -40,6 +34,17 @@ function createRun(req, res, next) {
   // Send an error
 
   res.status(201).json({ data });
+}
+
+function validateRequestBody(reqBody) {
+  const errors = [];
+  // Check if name, date, category, runTime, system, video_url exists
+  // Check if name is a string
+  // Check if date is YYYY-MM-DD
+  // Check if category is a string
+  // Check if runTime is HH:MM:SS:MSMS
+  // Check if system is a string
+  // Check if video_url is a valid URL
 }
 
 module.exports = { getAllRuns, getOneRun, createRun, deleteRun };

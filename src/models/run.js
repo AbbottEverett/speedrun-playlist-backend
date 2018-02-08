@@ -12,13 +12,19 @@ const runs = [
 
 class Run {
   constructor(data) {
-    this.id = runs[runs.length-1].id + 1;
+    this.id = this.generateId();
     this.name = data.name;
     this.date = data.date;
     this.category = data.category;
     this.runTime = data.runTime;
     this.system = data.system;
     this.video_url = data.video_url;
+  }
+  generateId(){
+    if (runs.length > 0) {
+      return runs[runs.length-1].id + 1;
+    }
+    return 1;
   }
 }
 
@@ -50,8 +56,17 @@ function createRun(reqData) {
   return response;
 }
 
-function deleteRun() {
+function deleteRun(id) {
+  let response = getOneRun(id);
 
+  if (!response) {
+    response = { errors: 'Please make sure id is inputted correctly' };
+  } else {
+    let index = runs.indexOf(response);
+    runs.splice(index, 1);
+  }
+  console.log(runs);
+  return response;
 }
 
 function updateRun() {
