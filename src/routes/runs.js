@@ -3,7 +3,8 @@ const router = express.Router();
 const ctrl = require('../controllers/runs');
 
 router.get('/', ctrl.getAllRuns);
-
+router.get('/:id', ctrl.getOneRun);
 router.post('/', ctrl.createRun);
+router.delete('/:id', ctrl.deleteRun);
 
 module.exports = router;
