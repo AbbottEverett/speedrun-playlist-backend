@@ -36,18 +36,29 @@ function createPlaylist(req, res, next) {
 }
 
 function updatePlaylist(req, res, next) {
-  let data;
-  if (isRequestBodyValid(req.body)) {
-    data = model.updatePlaylist(req.params.id, req.body);
-  } else {
-    return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: 'Please make sure request body is valid' });
-  }
-
-  if (data.errors) {
-    return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: data.errors });
-  }
-
-  res.status(200).json({ data });
+  model.updatePlaylist(req.params.id, req.body)
+    .then((response) => {
+      if (response.length < 1) {
+        return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: `Playlist at id: ${req.params.id} does not exists.` });
+      }
+      let data = response[0];
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly or request body is valid.` });
+    });
+  // let data;
+  // if (isRequestBodyValid(req.body)) {
+  //   data = model.updatePlaylist(req.params.id, req.body);
+  // } else {
+  //   return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: 'Please make sure request body is valid' });
+  // }
+  //
+  // if (data.errors) {
+  //   return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: data.errors });
+  // }
+  //
+  // res.status(200).json({ data });
 }
 
 function deletePlaylist(req, res, next) {
@@ -60,14 +71,9 @@ function deletePlaylist(req, res, next) {
       res.status(200).json({ data });
     })
     .catch((err) => {
-      return next({ status: 404, message: `Could not find playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
+      // Make sure dependent records get deleted
+      return next({ status: 400, message: `Could not delete playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
     });
-
-  // if (data.errors) {
-  //   return next({ status: 400, message: `Could not remove playlist at id: ${req.params.id}`, errors: data.errors });
-  // }
-  //
-  // res.status(200).json({ data });
 }
 
 function isRequestBodyValid(reqData) {
