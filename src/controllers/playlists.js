@@ -15,7 +15,7 @@ function getAllPlaylists(req, res, next) {
 }
 
 function getOnePlaylist(req, res, next) {
-  let data = model.getOnePlaylist(req.params.id);
+  const data = model.getOnePlaylist(req.params.id);
 
   if (data.errors) {
     return next({ status: 404, message: `Could not find playlist at id: ${req.params.id}`, errors: data.errors });
@@ -25,7 +25,11 @@ function getOnePlaylist(req, res, next) {
 }
 
 function createPlaylist(req, res, next) {
-  let data = playlists;
+  const data = model.createPlaylist(req.body);
+  // Check if req body is valid
+  // Create it and add it to array
+
+  // Send an error
   res.status(201).json({ data });
 }
 

@@ -53,6 +53,7 @@ function getOneRun(id) {
 function createRun(reqData) {
   const response = new Run(reqData);
   runs.push(response);
+  console.log(runs);
   return response;
 }
 

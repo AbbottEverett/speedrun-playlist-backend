@@ -43,7 +43,10 @@ function getOnePlaylist(id) {
 }
 
 function createPlaylist(reqData) {
-
+  const response = new Playlist(reqData);
+  playlists.push(response);
+  console.log(playlists)
+  return response;
 }
 
 function deletePlaylist(id) {
