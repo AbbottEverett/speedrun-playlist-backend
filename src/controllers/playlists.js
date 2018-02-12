@@ -47,18 +47,6 @@ function updatePlaylist(req, res, next) {
     .catch((err) => {
       return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly or request body is valid.` });
     });
-  // let data;
-  // if (isRequestBodyValid(req.body)) {
-  //   data = model.updatePlaylist(req.params.id, req.body);
-  // } else {
-  //   return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: 'Please make sure request body is valid' });
-  // }
-  //
-  // if (data.errors) {
-  //   return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: data.errors });
-  // }
-  //
-  // res.status(200).json({ data });
 }
 
 function deletePlaylist(req, res, next) {

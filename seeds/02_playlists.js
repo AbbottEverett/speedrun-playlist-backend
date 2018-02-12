@@ -6,7 +6,8 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('playlists').insert([
         {id: 1, name: 'Super Mario World Records', user_id: 1},
-        {id: 2, name: 'Jordan Games', user_id: 2}
+        {id: 2, name: 'Jordan Games', user_id: 2},
+        {id: 3, name: 'Patrick Games', user_id: 3}
       ]).then(() => {
         return knex.raw(
           `SELECT setval('playlists_id_seq', (SELECT MAX(id) FROM playlists));`
