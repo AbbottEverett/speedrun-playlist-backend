@@ -4,10 +4,12 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
 const runsRoute = require('./src/routes/runs');
+const playlistsRoute = require('./src/routes/playlists');
 
 app.use(bodyParser.json());
 
 app.use('/runs', runsRoute);
+app.use('/playlists', playlistsRoute);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
