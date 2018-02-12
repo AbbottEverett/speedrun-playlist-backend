@@ -32,16 +32,10 @@ function createPlaylist(reqData) {
 }
 
 function deletePlaylist(id) {
-  let response = getOnePlaylist(id);
-
-  if (response.errors) {
-    return response;
-  } else {
-    let index = playlists.indexOf(response);
-    playlists.splice(index, 1);
-  }
-
-  return response;
+  return knex('playlists')
+    .where({ 'id': id })
+    .del()
+    .returning('*');
 }
 
 function updatePlaylist(id, reqData) {
