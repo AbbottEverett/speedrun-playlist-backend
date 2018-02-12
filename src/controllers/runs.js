@@ -27,24 +27,25 @@ function deleteRun(req, res, next) {
 }
 
 function createRun(req, res, next) {
-  const data = model.createRun(req.body);
-  // Check if req body is valid
-  // Create it and add it to array
+  let data;
 
-  // Send an error
+  if (isRequestBodyValid(req.body)) {
+    data = model.createRun(req.body);
+  } else {
+    return next({ status: 400, message: 'Could not create new run', errors: 'Please make sure request body is valid' });
+  }
 
   res.status(201).json({ data });
 }
 
-function validateRequestBody(reqBody) {
-  const errors = [];
-  // Check if name, date, category, runTime, system, video_url exists
-  // Check if name is a string
-  // Check if date is YYYY-MM-DD
-  // Check if category is a string
-  // Check if runTime is HH:MM:SS:MSMS
-  // Check if system is a string
-  // Check if video_url is a valid URL
+function isRequestBodyValid(reqData) {
+  if (!reqData.name) return false;
+  if (!reqData.date) return false;
+  if (!reqData.category) return false;
+  if (!reqData.run_time) return false;
+  if (!reqData.platform) return false;
+  if (!reqData.video_url) return false;
+  return true;
 }
 
 module.exports = { getAllRuns, getOneRun, createRun, deleteRun };

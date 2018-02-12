@@ -4,7 +4,7 @@ const runs = [
     name: 'Super Mario World',
     date: '2017-12-09',
     category: '96_exit',
-    runTime: 10000,
+    run_time: 10000,
     platform: 'SNES',
     video_url:'youtube.com/myvideo'
   }
@@ -16,7 +16,7 @@ class Run {
     this.name = data.name;
     this.date = data.date;
     this.category = data.category;
-    this.runTime = data.runTime;
+    this.run_time = data.run_time;
     this.platform = data.platform;
     this.video_url = data.video_url;
   }
@@ -53,7 +53,7 @@ function getOneRun(id) {
 function createRun(reqData) {
   const response = new Run(reqData);
   runs.push(response);
-  console.log(runs);
+  
   return response;
 }
 
@@ -66,7 +66,7 @@ function deleteRun(id) {
     let index = runs.indexOf(response);
     runs.splice(index, 1);
   }
-  console.log(runs);
+
   return response;
 }
 
