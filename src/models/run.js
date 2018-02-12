@@ -4,8 +4,8 @@ const runs = [
     name: 'Super Mario World',
     date: '2017-12-09',
     category: '96_exit',
-    runTime: '15:47',
-    system: 'SNES',
+    runTime: 10000,
+    platform: 'SNES',
     video_url:'youtube.com/myvideo'
   }
 ];
@@ -17,7 +17,7 @@ class Run {
     this.date = data.date;
     this.category = data.category;
     this.runTime = data.runTime;
-    this.system = data.system;
+    this.platform = data.platform;
     this.video_url = data.video_url;
   }
   generateId(){

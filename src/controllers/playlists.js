@@ -1,4 +1,5 @@
 const express = require('express');
+const model = require('../models/playlist');
 
 const playlists = [
   {
@@ -9,7 +10,7 @@ const playlists = [
 ];
 
 function getAllPlaylists(req, res, next) {
-  let data = playlists;
+  const data = model.getAllPlaylists();
   res.status(200).json({ data });
 }
 
