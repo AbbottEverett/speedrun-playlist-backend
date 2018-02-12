@@ -9,52 +9,26 @@ const playlists = [
 ];
 
 class Playlist {
-  constructor(data, id) {
-    this.id = this.generateId(id);
+  constructor(data) {
     this.name = data.name;
-    this.user = data.user;
-  }
-  generateId(id) {
-    if (id) {
-      return id;
-    } else if (playlists.length > 0) {
-      return playlists[playlists.length-1].id + 1;
-    }
-    return 1;
+    this.user_id = data.user_id;
   }
 }
 
 function getAllPlaylists() {
   return knex('playlists')
-    .then((response) => {
-      console.log(response);
-      return response;
-    });
-  // const response = playlists;
-  // return response;
 }
 
 function getOnePlaylist(id) {
-  const idToCheck = parseInt(id, 10);
-  let response;
-
-  playlists.forEach((playlist) => {
-    if (playlist.id === idToCheck) {
-      response = playlist;
-    }
-  });
-
-  if (!response) {
-    response = { errors: 'Please make sure id is inputted correctly' };
-  }
-
-  return response;
+  return knex('playlists')
+    .where({ 'id': id })
+    .first();
 }
 
 function createPlaylist(reqData) {
-  const response = new Playlist(reqData);
-  playlists.push(response);
-  return response;
+  return knex('playlists')
+    .insert(new Playlist(reqData))
+    .returning('*');
 }
 
 function deletePlaylist(id) {

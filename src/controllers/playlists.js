@@ -7,29 +7,32 @@ function getAllPlaylists(req, res, next) {
       res.status(200).json({ data });
     })
     .catch((err) => {
-      return next({ status: 500, message: 'Server failure, speak to IT.' }); 
+      return next({ status: 500, message: 'Server failure, speak to IT.' });
     });
 }
 
 function getOnePlaylist(req, res, next) {
-  const data = model.getOnePlaylist(req.params.id);
-
-  if (data.errors) {
-    return next({ status: 404, message: `Could not find playlist at id: ${req.params.id}`, errors: data.errors });
-  }
-
-  res.status(200).json({ data });
+  model.getOnePlaylist(req.params.id)
+    .then((data) => {
+      if (!data) {
+        return next({ status: 404, message: `Could not find playlist at id: ${req.params.id}`, errors: `Playlist at id: ${req.params.id} does not exists.` });
+      }
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 404, message: `Could not find playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
+    });
 }
 
 function createPlaylist(req, res, next) {
-  let data;
-  if (isRequestBodyValid(req.body)) {
-    data = model.createPlaylist(req.body);
-  } else {
-    return next({ status: 400, message: 'Could not create new playlist', errors: 'Please make sure request body is valid' });
-  }
-
-  res.status(201).json({ data });
+  model.createPlaylist(req.body)
+    .then((response) => {
+      let data = response[0];
+      res.status(201).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 400, message: 'Could not create new playlist', errors: 'Please make sure request body is valid' });
+    });
 }
 
 function updatePlaylist(req, res, next) {
@@ -59,7 +62,7 @@ function deletePlaylist(req, res, next) {
 
 function isRequestBodyValid(reqData) {
   if (!reqData.name) return false;
-  if (!reqData.user) return false;
+  if (!reqData.user_id) return false;
   return true;
 }
 
