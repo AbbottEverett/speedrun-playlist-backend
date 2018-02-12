@@ -20,7 +20,7 @@ function deleteRun(req, res, next) {
   const data = model.deleteRun(req.params.id);
 
   if (data.errors) {
-    return next({ status: 400, message: `Could not remove costume at id: ${req.params.id}`, errors: data.errors });
+    return next({ status: 400, message: `Could not remove run at id: ${req.params.id}`, errors: data.errors });
   }
 
   res.status(200).json({ data });

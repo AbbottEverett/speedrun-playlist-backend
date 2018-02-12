@@ -26,19 +26,42 @@ function getAllPlaylists() {
 }
 
 function getOnePlaylist(id) {
+  const idToCheck = parseInt(id, 10);
+  let response;
 
+  playlists.forEach((playlist) => {
+    if (playlist.id === idToCheck) {
+      response = playlist;
+    }
+  });
+
+  if (!response) {
+    response = { errors: 'Please make sure id is inputted correctly' };
+  }
+
+  return response;
 }
 
-function createPlaylist(input) {
+function createPlaylist(reqData) {
 
 }
 
 function deletePlaylist(id) {
+  let response = getOnePlaylist(id);
 
+  if (!response) {
+    response = { errors: 'Please make sure id is inputted correctly' };
+  } else {
+    let index = playlists.indexOf(response);
+    playlists.splice(index, 1);
+  }
+  console.log(playlists);
+  console.log(response);
+  return response;
 }
 
-function updatePlaylist(input, id) {
-  
+function updatePlaylist(reqData, id) {
+
 }
 
 module.exports = { getAllPlaylists, getOnePlaylist, createPlaylist, deletePlaylist, updatePlaylist };
