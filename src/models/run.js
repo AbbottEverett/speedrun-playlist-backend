@@ -11,8 +11,8 @@ const runs = [
 ];
 
 class Run {
-  constructor(data) {
-    this.id = this.generateId();
+  constructor(data, id) {
+    this.id = this.generateId(id);
     this.name = data.name;
     this.date = data.date;
     this.category = data.category;
@@ -20,8 +20,10 @@ class Run {
     this.platform = data.platform;
     this.video_url = data.video_url;
   }
-  generateId(){
-    if (runs.length > 0) {
+  generateId(id){
+    if (id) {
+      return id;
+    } else if (runs.length > 0) {
       return runs[runs.length-1].id + 1;
     }
     return 1;
@@ -53,7 +55,7 @@ function getOneRun(id) {
 function createRun(reqData) {
   const response = new Run(reqData);
   runs.push(response);
-  
+
   return response;
 }
 
@@ -70,8 +72,17 @@ function deleteRun(id) {
   return response;
 }
 
-function updateRun() {
-
+function updateRun(id, reqData) {
+  let response = getOneRun(id);
+  if (response.errors) {
+    return response;
+  } else {
+    const index = runs.indexOf(response);
+    const newRunData = new Run(reqData, parseInt(id, 10));
+    runs[index] = newRunData;
+    response = runs[index];
+  }
+  return response;
 }
 
 module.exports = { getAllRuns, getOneRun, createRun, deleteRun, updateRun };

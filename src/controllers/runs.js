@@ -38,6 +38,22 @@ function createRun(req, res, next) {
   res.status(201).json({ data });
 }
 
+function updateRun(req, res, next) {
+  let data;
+
+  if (isRequestBodyValid(req.body)) {
+    data = model.updateRun(req.params.id, req.body);
+  } else {
+    return next({ status: 400, message: `Could not update run at id: ${req.params.id}`, errors: 'Please make sure request body is valid' });
+  }
+
+  if (data.errors) {
+    return next({ status: 400, message: `Could not update run at id: ${req.params.id}`, errors: data.errors });
+  }
+
+  res.status(200).json({ data });
+}
+
 function isRequestBodyValid(reqData) {
   if (!reqData.name) return false;
   if (!reqData.date) return false;
@@ -48,4 +64,4 @@ function isRequestBodyValid(reqData) {
   return true;
 }
 
-module.exports = { getAllRuns, getOneRun, createRun, deleteRun };
+module.exports = { getAllRuns, getOneRun, createRun, deleteRun, updateRun };
