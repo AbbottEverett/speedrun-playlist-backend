@@ -1,14 +1,6 @@
 const express = require('express');
 const model = require('../models/playlist');
 
-const playlists = [
-  {
-    id: 1,
-    user: 'Patrick',
-    name: 'Patrick Games'
-  }
-];
-
 function getAllPlaylists(req, res, next) {
   const data = model.getAllPlaylists();
   res.status(200).json({ data });
@@ -25,16 +17,23 @@ function getOnePlaylist(req, res, next) {
 }
 
 function createPlaylist(req, res, next) {
-  const data = model.createPlaylist(req.body);
-  // Check if req body is valid
-  // Create it and add it to array
+  let data;
+  if (isRequestBodyValid(req.body)) {
+    data = model.createPlaylist(req.body);
+  } else {
+    return next({ status: 400, message: 'Could not create new playlist', errors: 'Please make sure request body is valid' });
+  }
 
-  // Send an error
   res.status(201).json({ data });
 }
 
 function updatePlaylist(req, res, next) {
-  const data = model.updatePlaylist(req.params.id, req.body);
+  let data;
+  if (isRequestBodyValid(req.body)) {
+    data = model.updatePlaylist(req.params.id, req.body);
+  } else {
+    return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: 'Please make sure request body is valid' });
+  }
 
   if (data.errors) {
     return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: data.errors });
@@ -51,6 +50,12 @@ function deletePlaylist(req, res, next) {
   }
 
   res.status(200).json({ data });
+}
+
+function isRequestBodyValid(reqData) {
+  if (!reqData.name) return false;
+  if (!reqData.user) return false;
+  return true;
 }
 
 module.exports = { getAllPlaylists, getOnePlaylist, createPlaylist, updatePlaylist, deletePlaylist };

@@ -53,9 +53,8 @@ function createPlaylist(reqData) {
 function deletePlaylist(id) {
   let response = getOnePlaylist(id);
 
-  // Change to response.errors
-  if (!response) {
-    response = { errors: 'Please make sure id is inputted correctly' };
+  if (response.errors) {
+    return response;
   } else {
     let index = playlists.indexOf(response);
     playlists.splice(index, 1);
@@ -66,7 +65,7 @@ function deletePlaylist(id) {
 
 function updatePlaylist(id, reqData) {
   let response = getOnePlaylist(id);
-
+  
   if (response.errors) {
     return response;
   } else {
