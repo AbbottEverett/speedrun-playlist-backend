@@ -2,8 +2,13 @@ const express = require('express');
 const model = require('../models/playlist');
 
 function getAllPlaylists(req, res, next) {
-  const data = model.getAllPlaylists();
-  res.status(200).json({ data });
+  model.getAllPlaylists()
+    .then((data) => {
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 500, message: 'Server failure, speak to IT.' }); 
+    });
 }
 
 function getOnePlaylist(req, res, next) {

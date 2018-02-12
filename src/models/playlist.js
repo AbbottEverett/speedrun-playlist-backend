@@ -1,3 +1,5 @@
+const knex = require('../../db');
+
 const playlists = [
   {
     id: 1,
@@ -23,8 +25,13 @@ class Playlist {
 }
 
 function getAllPlaylists() {
-  const response = playlists;
-  return response;
+  return knex('playlists')
+    .then((response) => {
+      console.log(response);
+      return response;
+    });
+  // const response = playlists;
+  // return response;
 }
 
 function getOnePlaylist(id) {
@@ -65,7 +72,7 @@ function deletePlaylist(id) {
 
 function updatePlaylist(id, reqData) {
   let response = getOnePlaylist(id);
-  
+
   if (response.errors) {
     return response;
   } else {
