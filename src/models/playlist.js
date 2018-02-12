@@ -7,13 +7,15 @@ const playlists = [
 ];
 
 class Playlist {
-  constructor(data) {
-    this.id = this.generateId();
+  constructor(data, id) {
+    this.id = this.generateId(id);
     this.name = data.name;
     this.user = data.user;
   }
-  generateId() {
-    if (playlists.length > 0) {
+  generateId(id) {
+    if (id) {
+      return id;
+    } else if (playlists.length > 0) {
       return playlists[playlists.length-1].id + 1;
     }
     return 1;
@@ -45,26 +47,35 @@ function getOnePlaylist(id) {
 function createPlaylist(reqData) {
   const response = new Playlist(reqData);
   playlists.push(response);
-  console.log(playlists)
   return response;
 }
 
 function deletePlaylist(id) {
   let response = getOnePlaylist(id);
 
+  // Change to response.errors
   if (!response) {
     response = { errors: 'Please make sure id is inputted correctly' };
   } else {
     let index = playlists.indexOf(response);
     playlists.splice(index, 1);
   }
-  console.log(playlists);
-  console.log(response);
+
   return response;
 }
 
-function updatePlaylist(reqData, id) {
+function updatePlaylist(id, reqData) {
+  let response = getOnePlaylist(id);
 
+  if (response.errors) {
+    return response;
+  } else {
+    const index = playlists.indexOf(response);
+    const newPlaylistData = new Playlist(reqData, parseInt(id, 10));
+    playlists[index] = newPlaylistData;
+    response = playlists[index];
+  }
+  return response;
 }
 
 module.exports = { getAllPlaylists, getOnePlaylist, createPlaylist, deletePlaylist, updatePlaylist };

@@ -34,12 +34,17 @@ function createPlaylist(req, res, next) {
 }
 
 function updatePlaylist(req, res, next) {
-  let data = playlists;
+  const data = model.updatePlaylist(req.params.id, req.body);
+
+  if (data.errors) {
+    return next({ status: 400, message: `Could not update playlist at id: ${req.params.id}`, errors: data.errors });
+  }
+
   res.status(200).json({ data });
 }
 
 function deletePlaylist(req, res, next) {
-  let data = model.deletePlaylist(req.params.id);
+  const data = model.deletePlaylist(req.params.id);
 
   if (data.errors) {
     return next({ status: 400, message: `Could not remove playlist at id: ${req.params.id}`, errors: data.errors });
