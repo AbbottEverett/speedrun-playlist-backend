@@ -11,20 +11,21 @@ function getAllPlaylistRuns(req, res, next) {
     });
 }
 
-module.exports = { getAllPlaylistRuns };
+function getOnePlaylistRun(req, res, next) {
+  model.getOnePlaylistRun(req.params.id, req.params.runId)
+    .then((data) => {
+      if (!data) {
+        return next({ status: 404, message: `Could not find playlist_run at id: ${req.params.runId}`, errors: `PlaylistRun at id: ${req.params.runId} does not exists.` });
+      }
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 404, message: `Could not find playlist_run at id: ${req.params.runId}`, errors: `Please make sure id is inputted correctly.` });
+    });
+}
 
-// function getOnePlaylistRun(req, res, next) {
-//   model.getOnePlaylistRun(req.params.id, req.params.runId)
-//     .then((data) => {
-//       if (!data) {
-//         return next({ status: 404, message: `Could not find playlist_run at id: ${req.params.runId}`, errors: `PlaylistRun at id: ${req.params.runId} does not exists.` });
-//       }
-//       res.status(200).json({ data });
-//     })
-//     .catch((err) => {
-//       return next({ status: 404, message: `Could not find playlist_run at id: ${req.params.runId}`, errors: `Please make sure id is inputted correctly.` });
-//     });
-// }
+module.exports = { getAllPlaylistRuns, getOnePlaylistRun };
+
 //
 // function createPlaylistRun(req, res, next) {
 //   model.createPlaylistRun(req.params.id, req.body)
