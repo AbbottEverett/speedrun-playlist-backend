@@ -1,8 +1,8 @@
 const knex = require('../../db');
 
 class PlaylistRun {
-  constructor(data) {
-    this.playlist_id = data.playlist_id,
+  constructor(id, data) {
+    this.playlist_id = id,
     this.run_id = data.run_id
   }
 }
@@ -19,9 +19,9 @@ function getOnePlaylistRun(playlistId, runId) {
 }
 
 function createPlaylistRun(playlistId, reqData) {
-  // return knex('playlist_runs')
-  //   .insert(new PlaylistRun(reqData))
-  //   .returning('*');
+  return knex('playlist_runs')
+    .insert(new PlaylistRun(playlistId, reqData))
+    .returning('*');
 }
 
 function deletePlaylistRun(playlistId, runId) {
@@ -31,11 +31,4 @@ function deletePlaylistRun(playlistId, runId) {
   //   .returning('*');
 }
 
-function updatePlaylistRun(playlistId, runId, reqData) {
-  // return knex('playlist_runs')
-  //   .where({ 'id': id })
-  //   .update(new PlaylistRun(reqData))
-  //   .returning('*');
-}
-
-module.exports = { getAllPlaylistRuns, getOnePlaylistRun, createPlaylistRun, deletePlaylistRun, updatePlaylistRun };
+module.exports = { getAllPlaylistRuns, getOnePlaylistRun, createPlaylistRun, deletePlaylistRun };

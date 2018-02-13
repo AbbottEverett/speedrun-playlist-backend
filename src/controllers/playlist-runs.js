@@ -24,19 +24,20 @@ function getOnePlaylistRun(req, res, next) {
     });
 }
 
-module.exports = { getAllPlaylistRuns, getOnePlaylistRun };
+function createPlaylistRun(req, res, next) {
+  model.createPlaylistRun(req.params.id, req.body)
+    .then((response) => {
+      let data = response[0];
+      res.status(201).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 400, message: 'Could not create new playlist_run', errors: 'Please make sure request body is valid' });
+    });
+}
 
-//
-// function createPlaylistRun(req, res, next) {
-//   model.createPlaylistRun(req.params.id, req.body)
-//     .then((response) => {
-//       let data = response[0];
-//       res.status(201).json({ data });
-//     })
-//     .catch((err) => {
-//       return next({ status: 400, message: 'Could not create new playlist_run', errors: 'Please make sure request body is valid' });
-//     });
-// }
+module.exports = { getAllPlaylistRuns, getOnePlaylistRun, createPlaylistRun };
+
+
 //
 // function updatePlaylistRun(req, res, next) {
 //   model.updatePlaylistRun(req.params.id, req.params.runId, req.body)
