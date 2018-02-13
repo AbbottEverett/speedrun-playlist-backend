@@ -1,15 +1,4 @@
 const knex = require('../../db');
-// const runs = [
-//   {
-//     id: 1,
-//     name: 'Super Mario World',
-//     date: '2017-12-09',
-//     category: '96_exit',
-//     run_time: 10000,
-//     platform: 'SNES',
-//     video_url:'youtube.com/myvideo'
-//   }
-// ];
 
 class Run {
   constructor(data) {
@@ -39,16 +28,6 @@ function createRun(reqData) {
 }
 
 function deleteRun(id) {
-  // let response = getOneRun(id);
-  //
-  // if (!response) {
-  //   response = { errors: 'Please make sure id is inputted correctly' };
-  // } else {
-  //   let index = runs.indexOf(response);
-  //   runs.splice(index, 1);
-  // }
-  //
-  // return response;
   return knex('runs')
     .where({ 'id': id })
     .del()
@@ -56,16 +35,10 @@ function deleteRun(id) {
 }
 
 function updateRun(id, reqData) {
-  let response = getOneRun(id);
-  if (response.errors) {
-    return response;
-  } else {
-    const index = runs.indexOf(response);
-    const newRunData = new Run(reqData, parseInt(id, 10));
-    runs[index] = newRunData;
-    response = runs[index];
-  }
-  return response;
+  return knex('runs')
+    .where({ 'id': id })
+    .update(new Run(reqData))
+    .returning('*');
 }
 
 module.exports = { getAllRuns, getOneRun, createRun, deleteRun, updateRun };
