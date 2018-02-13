@@ -25,10 +25,10 @@ function createPlaylistRun(playlistId, reqData) {
 }
 
 function deletePlaylistRun(playlistId, runId) {
-  // return knex('playlist_runs')
-  //   .where({ 'id': id })
-  //   .del()
-  //   .returning('*');
+  return knex('playlist_runs')
+    .where({ 'playlist_id': playlistId, 'run_id': runId })
+    .del()
+    .returning('*');
 }
 
 module.exports = { getAllPlaylistRuns, getOnePlaylistRun, createPlaylistRun, deletePlaylistRun };
