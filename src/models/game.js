@@ -1,10 +1,21 @@
 const axios = require('axios');
 const baseURL = 'https://www.speedrun.com/api/v1';
 
+class Run {
+  constructor(data) {
+    this.weblink = data.weblink;
+    this.player = data.players;
+    this.categoryId = data.category;
+    this.video_url = data.videos.links;
+    this.run_time = data.times.primary_t;
+    this.platformId = data.system.platform;
+    this.date = data.date;
+  }
+}
+
 function getGameByName(name) {
   let game = {};
-  let categories = [];
-  return axios.get(`${baseURL}/games?name=${name}&_bulk=yes&max=5`)
+  return axios.get(`${baseURL}/games?name=${name}`)
     .then((result) => {
       let gameData = result.data.data[0];
       game.id = gameData.id;
@@ -12,19 +23,16 @@ function getGameByName(name) {
       return axios.get(`${baseURL}/games/${game.id}/records?top=1`);
     })
     .then((result) => {
+      let categories = [];
       let categoriesList = result.data.data;
       categoriesList.forEach((category) => {
-        let reqData = category.runs[0].run;
-        let run = {};
-        run.weblink = reqData.weblink;
-        run.player = reqData.players;
-        run.categoryId = reqData.category;
-        run.video_url = reqData.videos.links;
-        run.run_time = reqData.times.primary_t;
-        run.platformId = reqData.system.platform;
-        run.date = reqData.date;
-        categories.push(run);
+        if (category.runs.length > 0) {
+          let reqData = category.runs[0].run;
+          let run = new Run(reqData);
+          categories.push(run);
+        }
       });
+      
       return { game, categories };
     });
 }

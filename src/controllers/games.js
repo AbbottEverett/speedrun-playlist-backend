@@ -7,7 +7,7 @@ function getGameByName(req, res, next) {
       res.status(200).json({ data });
     })
     .catch((err) => {
-      return next({ status: 404, message: 'Could not find game at specific id '});
+      return next({ status: 500, message: 'Server ERROR! Contact IT', errors: err });
     })
 }
 
