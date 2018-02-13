@@ -3,25 +3,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const knex = require('./db');
-
-const runsRoute = require('./src/routes/runs');
-const playlistsRoute = require('./src/routes/playlists');
+const masterRoute = require('./src/routes/master');
 
 app.use(bodyParser.json());
 
-function getUsers() {
-  return knex('users');
-}
-
-app.get('/', (req, res, next) => {
-  getUsers().then((response) => {
-    console.log(response);
-  });
-  res.status(200).json({ data: 'cool' });
-});
-
-app.use('/runs', runsRoute);
-app.use('/playlists', playlistsRoute);
+app.use('/', masterRoute);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
