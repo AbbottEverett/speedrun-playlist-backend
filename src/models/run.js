@@ -12,22 +12,13 @@ const runs = [
 ];
 
 class Run {
-  constructor(data, id) {
-    this.id = this.generateId(id);
+  constructor(data) {
     this.name = data.name;
     this.date = data.date;
     this.category = data.category;
     this.run_time = data.run_time;
     this.platform = data.platform;
     this.video_url = data.video_url;
-  }
-  generateId(id){
-    if (id) {
-      return id;
-    } else if (runs.length > 0) {
-      return runs[runs.length-1].id + 1;
-    }
-    return 1;
   }
 }
 
@@ -36,30 +27,15 @@ function getAllRuns() {
 }
 
 function getOneRun(id) {
-  // const idToCheck = parseInt(id, 10);
-  // let response;
-  //
-  // runs.forEach((run) => {
-  //   if (run.id === idToCheck) {
-  //     response = run;
-  //   }
-  // });
-  //
-  // if (!response) {
-  //   response = { errors: 'Please make sure id is inputted correctly' };
-  // }
-  //
-  // return response;
   return knex('runs')
     .where({ 'id': id })
     .first();
 }
 
 function createRun(reqData) {
-  const response = new Run(reqData);
-  runs.push(response);
-
-  return response;
+  return knex('runs')
+    .insert(new Run(reqData))
+    .returning('*');
 }
 
 function deleteRun(id) {
