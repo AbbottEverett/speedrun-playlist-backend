@@ -63,10 +63,10 @@ function deletePlaylist(req, res, next) {
     });
 }
 
-function isRequestBodyValid(reqData) {
-  if (!reqData.name) return false;
-  if (!reqData.user_id) return false;
-  return true;
-}
+// function isRequestBodyValid(reqData) {
+//   if (!reqData.name) return false;
+//   if (!reqData.user_id) return false;
+//   return true;
+// }
 
 module.exports = { getAllPlaylists, getOnePlaylist, createPlaylist, updatePlaylist, deletePlaylist };

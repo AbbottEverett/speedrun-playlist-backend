@@ -3,9 +3,11 @@ const router = express.Router();
 const runsRoute = require('./runs');
 const playlistsRoute = require('./playlists');
 const usersRoute = require('./users');
+const playlistRunsRoute = require('./playlist-runs');
 
 router.use('/runs', runsRoute);
 router.use('/playlists', playlistsRoute);
+router.use('/playlists/:id/runs', playlistRunsRoute);
 router.use('/users', usersRoute);
 
 module.exports = router;
