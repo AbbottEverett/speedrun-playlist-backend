@@ -1,3 +1,4 @@
+const knex = require('../../db');
 const runs = [
   {
     id: 1,
@@ -31,8 +32,7 @@ class Run {
 }
 
 function getAllRuns() {
-  const response = runs;
-  return response;
+  return knex('runs');
 }
 
 function getOneRun(id) {

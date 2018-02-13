@@ -2,8 +2,15 @@ const express = require('express');
 const model = require('../models/run');
 
 function getAllRuns(req, res, next) {
-  const data = model.getAllRuns();
-  res.status(200).json({ data });
+  // const data = model.getAllRuns();
+  // res.status(200).json({ data });
+  model.getAllRuns()
+    .then((data) => {
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 500, message: 'Server failure, speak to IT.' });
+    });
 }
 
 function getOneRun(req, res, next) {
