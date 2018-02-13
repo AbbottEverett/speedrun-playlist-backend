@@ -29,21 +29,19 @@ function getGameByName(name) {
     });
 }
 
-function getCategoriesList(id, categoriesList) {
-  const arr = [];
-  categoriesList.forEach((category) => {
-    let categoryId = category.run.id;
-    let url = `${baseURL}/category/${categoryId}`;
-    let promise = axios.get(url);
-    arr.push(promise);
-  });
-  return Promise.all(arr)
-    .then((responses) => {
-      console.log(responses);
-      return responses;
-    })
-}
-
-
+// function getCategoriesList(id, categoriesList) {
+//   const arr = [];
+//   categoriesList.forEach((category) => {
+//     let categoryId = category.run.id;
+//     let url = `${baseURL}/category/${categoryId}`;
+//     let promise = axios.get(url);
+//     arr.push(promise);
+//   });
+//   return Promise.all(arr)
+//     .then((responses) => {
+//       console.log(responses);
+//       return responses;
+//     })
+// }
 
 module.exports = { getGameByName };
