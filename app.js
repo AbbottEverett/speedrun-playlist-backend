@@ -4,9 +4,10 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const knex = require('./db');
 const masterRoute = require('./src/routes/master');
+const cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.json());
-
 app.use('/', masterRoute);
 
 app.use((err, req, res, next) => {
