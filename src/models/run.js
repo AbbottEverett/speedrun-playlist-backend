@@ -36,20 +36,23 @@ function getAllRuns() {
 }
 
 function getOneRun(id) {
-  const idToCheck = parseInt(id, 10);
-  let response;
-
-  runs.forEach((run) => {
-    if (run.id === idToCheck) {
-      response = run;
-    }
-  });
-
-  if (!response) {
-    response = { errors: 'Please make sure id is inputted correctly' };
-  }
-
-  return response;
+  // const idToCheck = parseInt(id, 10);
+  // let response;
+  //
+  // runs.forEach((run) => {
+  //   if (run.id === idToCheck) {
+  //     response = run;
+  //   }
+  // });
+  //
+  // if (!response) {
+  //   response = { errors: 'Please make sure id is inputted correctly' };
+  // }
+  //
+  // return response;
+  return knex('runs')
+    .where({ 'id': id })
+    .first();
 }
 
 function createRun(reqData) {

@@ -14,13 +14,23 @@ function getAllRuns(req, res, next) {
 }
 
 function getOneRun(req, res, next) {
-  const data = model.getOneRun(req.params.id);
-
-  if (data.errors) {
-    return next({ status: 404, message: `Could not find run at id: ${req.params.id}`, errors: data.errors });
-  }
-
-  res.status(200).json({ data });
+  // const data = model.getOneRun(req.params.id);
+  //
+  // if (data.errors) {
+  //   return next({ status: 404, message: `Could not find run at id: ${req.params.id}`, errors: data.errors });
+  // }
+  //
+  // res.status(200).json({ data });
+  model.getOneRun(req.params.id)
+    .then((data) => {
+      if (!data) {
+        return next({ status: 404, message: `Could not find run at id: ${req.params.id}`, errors: `Run at id: ${req.params.id} does not exists.` });
+      }
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 404, message: `Could not find run at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
+    });
 }
 
 function deleteRun(req, res, next) {
