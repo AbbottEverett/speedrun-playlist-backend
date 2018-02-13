@@ -59,7 +59,6 @@ function deletePlaylist(req, res, next) {
       res.status(200).json({ data });
     })
     .catch((err) => {
-      // Make sure dependent records get deleted
       return next({ status: 400, message: `Could not delete playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
     });
 }

@@ -27,25 +27,27 @@ function getOneRun(req, res, next) {
 }
 
 function deleteRun(req, res, next) {
-  const data = model.deleteRun(req.params.id);
-
-  if (data.errors) {
-    return next({ status: 400, message: `Could not remove run at id: ${req.params.id}`, errors: data.errors });
-  }
-
-  res.status(200).json({ data });
+  // const data = model.deleteRun(req.params.id);
+  //
+  // if (data.errors) {
+  //   return next({ status: 400, message: `Could not remove run at id: ${req.params.id}`, errors: data.errors });
+  // }
+  //
+  // res.status(200).json({ data });
+  model.deleteRun(req.params.id)
+    .then((response) => {
+      if (response.length < 1) {
+        return next({ status: 400, message: `Could not delete run at id: ${req.params.id}`, errors: `Run at id: ${req.params.id} does not exists.` });
+      }
+      let data = response[0];
+      res.status(200).json({ data });
+    })
+    .catch((err) => {
+      return next({ status: 400, message: `Could not delete run at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
+    });
 }
 
 function createRun(req, res, next) {
-  // let data;
-  //
-  // if (isRequestBodyValid(req.body)) {
-  //   data = model.createRun(req.body);
-  // } else {
-  //   return next({ status: 400, message: 'Could not create new run', errors: 'Please make sure request body is valid' });
-  // }
-  //
-  // res.status(201).json({ data });
   model.createRun(req.body)
     .then((response) => {
       let data = response[0];
