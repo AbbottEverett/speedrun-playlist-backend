@@ -4,6 +4,7 @@ const runsRoute = require('./runs');
 const playlistsRoute = require('./playlists');
 const usersRoute = require('./users');
 const playlistRunsRoute = require('./playlist-runs');
+const gamesRoute = require('./games');
 
 router.use('/runs', runsRoute);
 router.use('/playlists', playlistsRoute);
