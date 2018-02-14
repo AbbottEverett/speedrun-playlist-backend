@@ -9,5 +9,6 @@ router.use('/runs', runsRoute);
 router.use('/playlists', playlistsRoute);
 router.use('/playlists/:id/runs', playlistRunsRoute);
 router.use('/users', usersRoute);
+router.use('/games', gamesRoute);
 
 module.exports = router;

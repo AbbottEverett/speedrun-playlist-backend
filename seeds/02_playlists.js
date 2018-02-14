@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('playlists').insert([
-        {id: 1, name: 'Super Mario World Records', user_id: 1},
+        {id: 1, name: 'Everett Games', user_id: 1},
         {id: 2, name: 'Jordan Games', user_id: 2},
         {id: 3, name: 'Patrick Games', user_id: 3}
       ]).then(() => {

@@ -7,7 +7,7 @@ function getAllRuns(req, res, next) {
       res.status(200).json({ data });
     })
     .catch((err) => {
-      return next({ status: 500, message: 'Server failure, speak to IT.' });
+      return next({ status: 500, message: 'Server failure, speak to IT.', errors: err });
     });
 }
 
