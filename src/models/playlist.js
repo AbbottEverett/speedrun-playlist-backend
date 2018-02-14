@@ -11,6 +11,11 @@ function getAllPlaylists() {
   return knex('playlists')
 }
 
+function getAllPlaylistsByUserId(id) {
+  return knex('playlists')
+    .where({ user_id: id });
+}
+
 function getOnePlaylist(id) {
   return knex('playlists')
     .where({ 'id': id })
@@ -37,4 +42,4 @@ function updatePlaylist(id, reqData) {
     .returning('*');
 }
 
-module.exports = { getAllPlaylists, getOnePlaylist, createPlaylist, deletePlaylist, updatePlaylist };
+module.exports = { getAllPlaylists, getAllPlaylistsByUserId, getOnePlaylist, createPlaylist, deletePlaylist, updatePlaylist };

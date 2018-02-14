@@ -2,13 +2,23 @@ const express = require('express');
 const model = require('../models/playlist');
 
 function getAllPlaylists(req, res, next) {
-  model.getAllPlaylists()
-    .then((data) => {
-      res.status(200).json({ data });
-    })
-    .catch((err) => {
-      return next({ status: 500, message: 'Server failure, speak to IT.' });
-    });
+  if (req.query.user_id) {
+    model.getAllPlaylistsByUserId(req.query.user_id)
+      .then((data) => {
+        res.status(200).json({ data });
+      })
+      .catch((err) => {
+        return next({ status: 500, message: 'Server failure, speak to IT.' });
+      });
+  } else {
+    model.getAllPlaylists()
+      .then((data) => {
+        res.status(200).json({ data });
+      })
+      .catch((err) => {
+        return next({ status: 500, message: 'Server failure, speak to IT.' });
+      });
+  }
 }
 
 function getOnePlaylist(req, res, next) {
@@ -62,11 +72,5 @@ function deletePlaylist(req, res, next) {
       return next({ status: 400, message: `Could not delete playlist at id: ${req.params.id}`, errors: `Please make sure id is inputted correctly.` });
     });
 }
-
-// function isRequestBodyValid(reqData) {
-//   if (!reqData.name) return false;
-//   if (!reqData.user_id) return false;
-//   return true;
-// }
 
 module.exports = { getAllPlaylists, getOnePlaylist, createPlaylist, updatePlaylist, deletePlaylist };
