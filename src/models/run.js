@@ -2,11 +2,11 @@ const knex = require('../../db');
 
 class Run {
   constructor(data) {
-    this.name = data.name;
+    this.game_id = data.game_id;
     this.date = data.date;
-    this.category = data.category;
+    this.category_id = data.category_id;
     this.run_time = data.run_time;
-    this.platform = data.platform;
+    this.platform_id = data.platform_id;
     this.video_url = data.video_url;
   }
 }

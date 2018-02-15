@@ -63,14 +63,4 @@ function updateRun(req, res, next) {
     });
 }
 
-function isRequestBodyValid(reqData) {
-  if (!reqData.name) return false;
-  if (!reqData.date) return false;
-  if (!reqData.category) return false;
-  if (!reqData.run_time) return false;
-  if (!reqData.platform) return false;
-  if (!reqData.video_url) return false;
-  return true;
-}
-
 module.exports = { getAllRuns, getOneRun, createRun, deleteRun, updateRun };
