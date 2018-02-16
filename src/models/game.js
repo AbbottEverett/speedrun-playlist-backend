@@ -32,7 +32,6 @@ function getGameByName(name) {
           categories.push(run);
         }
       });
-      
       return { game, categories };
     });
 }
