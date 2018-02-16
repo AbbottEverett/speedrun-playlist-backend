@@ -7,6 +7,7 @@ function getAllUsers(req, res, next) {
       res.status(200).json({ data });
     })
     .catch((err) => {
+      console.log(err);
       return next({ status: 500, message: 'Server failure, speak to IT.' });
     });
 }
